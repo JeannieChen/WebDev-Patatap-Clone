@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- paper.js -->
+	<script type="text/javascript" src="paper-full.js"></script>
+
+	<!-- howler.js -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
+
+	<script type="text/paperscript" canvas="myCanvas">
+
+
+	var keyData = {
+		a: {
+			color: "#d47777",
+			sound: new Howl({ src: ['sounds/veil.mp3'] })
+			},
+		b: {
+			color: "#d4b577",
+			sound: new Howl({ src: ['sounds/clay.mp3'] })
+			},
+		c: {
+			color: "#77d483",
+			sound: new Howl({ src: ['sounds/dotted-spiral.mp3'] })
+			},
+		d: {
+			color: "#1f3b23",
+			sound: new Howl({ src: ['sounds/moon.mp3'] })
+			},
+		e: {
+			color: "#77d483",
+			sound: new Howl({ src: ['sounds/splits.mp3'] })
+			},
+		f: {
+			color: "#6399c2",
+			sound: new Howl({ src: ['sounds/ufo.mp3'] })
+			},
+		g: {
+			color: "#495c6b",
+			sound: new Howl({ src: ['sounds/prism-2.mp3'] })
+			},
+		h: {
+			color: "#cfde5f",
+			sound: new Howl({ src: ['sounds/wipe.mp3'] })
+			},
+		i: {
+			color: "#6e5fde",
+			sound: new Howl({ src: ['sounds/strike.mp3'] })
+			}
+	}
+
+	var elseSound = {
+			color: "pink",
+			sound: new Howl({ src: ['sounds/bubbles.mp3'] })
+	}
+
+
+	var circles = [];
+
+	function onKeyDown(event) {
+	
+	// When a key is pressed, set the content:
+
+		// Set random location
+		var maxPoint = new Point(view.size.width, view.size.height);
+		var randomPoint = Point.random();
+		var point = maxPoint * randomPoint;
+
+		// Set random starting size
+		var maxSize = 100;
+		var randomStart = Math.random() * maxSize;
+
+		// Add properties to circle
+		var newCircle = new Path.Circle(point, randomStart);
+
+		if(keyData[event.key]){
+			newCircle.fillColor = keyData[event.key].color;
+			keyData[event.key].sound.play();
+		}else{
+			newCircle.fillColor = elseSound.color;
+			elseSound.sound.play();
+		}
+		circles.push(newCircle);
+
+	}
+
+	function onFrame(){
+		for(var i = 0; i < circles.length; i++){
+			circles[i].fillColor.hue += 2;
+			circles[i].scale(.95);
+		}
+	}
+
+	</script>
+
+	<style type="text/css">
+		body,html{
+			height: 100%;
+			margin: 0;
+			background-color: black;
+		}
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+
+	<title>Circles</title>
+</head>
+
+
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+
+</html>
